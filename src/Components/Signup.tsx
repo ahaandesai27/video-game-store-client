@@ -1,14 +1,16 @@
 import { FormEvent, useRef } from "react";
 import { gql, useMutation } from "@apollo/client"
+import { useNavigate } from "react-router-dom";
 
-interface signupData {
-    username: string|undefined, 
-    email: string|undefined,
-    password: string|undefined,     //needs to bcrypt
-    firstName: string|undefined,
-    lastName: string|undefined,
-    age: number|undefined
+interface SignupData {
+  username?: string; 
+  email?: string;
+  password?: string; // needs to bcrypt
+  firstName?: string;
+  lastName?: string;
+  age?: number;
 }
+
 
 interface SignupResponse {
     addUser: {
@@ -27,37 +29,29 @@ const SIGN_UP = gql`
 `;
 
 export default function Component() {
-    const fnameRef = useRef<HTMLInputElement>(null);
-    const lnameRef = useRef<HTMLInputElement>(null);
-    const usernameRef = useRef<HTMLInputElement>(null);
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
-    const ageRef = useRef<HTMLInputElement>(null);
-
-    const [signup, {data}] = useMutation<SignupResponse>(SIGN_UP);
+    const formRef = useRef<HTMLFormElement>(null);
+    const [signup] = useMutation<SignupResponse>(SIGN_UP);
+    const navigate = useNavigate();
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
       try {
-        e.preventDefault();
-        let userAge: number | undefined;
-        if (ageRef.current?.value) {
-          userAge = parseInt(ageRef.current?.value, 10);
-        }
-        const user: signupData = {
-            username: usernameRef.current?.value,
-            email: emailRef.current?.value,
-            password: passwordRef.current?.value,
-            firstName: fnameRef.current?.value,
-            lastName: lnameRef.current?.value,
-            age: userAge
-        }
-        console.log(user);
-        await signup({variables: {user}})
-        //finally fixed :pray:
-        if (data) {
-          console.log(data);
-          alert("Signed up successfully!");
+        if (formRef.current) {
+          const formData = new FormData(formRef.current);
+          let formValues: SignupData = Object.fromEntries(formData.entries()) as unknown as SignupData;
+          if (formValues.age) {formValues.age = parseInt(formValues.age as unknown as string, 10);}
+          
+          const {data} = await signup({
+            variables: {
+              user: formValues
+            }
+          });
+          if (data) {
+            alert("Signed up successfully! Please login.");
+            navigate('/login');
+          }
         }
       } catch (error: any) {
+        alert("An error occured");
         console.log(error); 
       }
     }
@@ -65,8 +59,7 @@ export default function Component() {
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center items-center pt-12">
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
-          <form className="space-y-6 p-10 rounded-lg border border-gray-500
-          relative bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg" onSubmit={handleSubmit}>
+          <form className="space-y-6 p-10 rounded-lg border border-gray-500 relative bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg" ref = {formRef} onSubmit={handleSubmit}>
             <div>
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white ">
                     Create an Account
@@ -79,7 +72,7 @@ export default function Component() {
                     First Name
                 </label>
                 <input
-                  id="firstname" name="firstname" required placeholder="First Name" ref={fnameRef}
+                  id="firstname" name="firstName" required placeholder="First Name"
                   className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>  
@@ -89,7 +82,7 @@ export default function Component() {
                     Last Name
                 </label>
                 <input
-                  id="lastname" name="lastname" required placeholder="Last Name" ref={lnameRef}
+                  id="lastname" name="lastName" required placeholder="Last Name"
                   className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>  
@@ -99,7 +92,7 @@ export default function Component() {
                     Age
                 </label>
                 <input
-                  id="age" name="age" type="number" required placeholder="Age" ref={ageRef}
+                  id="age" name="age" type="number" required placeholder="Age"
                   className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>  
@@ -111,7 +104,7 @@ export default function Component() {
               </label>
               <div className="mt-2">
                 <input
-                  id="username" name="username" required placeholder="Enter username" ref={usernameRef} type="text" autoComplete="username"
+                  id="username" name="username" required placeholder="Enter username" type="text" autoComplete="username"
                   className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>    
@@ -123,7 +116,7 @@ export default function Component() {
               </label>
               <div className="mt-2">
                 <input
-                  id="email" name="email" required placeholder="Enter email" ref={emailRef} type="email"
+                  id="email" name="email" required placeholder="Enter email" type="email"
                   className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>    
@@ -138,7 +131,7 @@ export default function Component() {
 
               <div className="mt-2">
                 <input
-                  id="password" name="password" type="password" required autoComplete="current-password" placeholder="Enter password" ref={passwordRef}
+                  id="password" name="password" type="password" required autoComplete="current-password" placeholder="Enter password"
                   className="block pl-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

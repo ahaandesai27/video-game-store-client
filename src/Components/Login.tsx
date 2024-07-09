@@ -26,23 +26,22 @@ const LOGIN = gql`
 export default function Login() {
     const navigate = useNavigate();
     const formRef = useRef<HTMLFormElement>(null);
-    // const emailRef = useRef<HTMLInputElement>(null);
-    // const passwordRef = useRef<HTMLInputElement>(null);
     const [login, {data}] = useMutation<AuthPayLoadData>(LOGIN);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
       try {
-        e.preventDefault();
-        const email = formRef.current?.email.value;
-        const password = formRef.current?.password.value;
-        await login({
-          variables: {
-            email,
-            password
+        if (formRef.current) {
+          const formData = new FormData(formRef.current);
+          const formValues = Object.fromEntries(formData.entries());
+          const {data} = await login({
+            variables: {
+              ...formValues
+            }
+          });
+          if (data && data.loginUser.token) {
+            navigate('/', {state: {token: data.loginUser.token}})
           }
-        })
-        if (data && data.loginUser.token) {
-          navigate('/', {state: {token: data.loginUser.token}})
         }
       } catch (error: any) {
         console.log(error.message);
