@@ -11,25 +11,23 @@ interface SignupData {
   age?: number;
 }
 
-interface SignupResponse {
-    addUser: {
-        _id: string,
-        username: string
-    }
+interface AuthPayLoadData {
+  registerUser: {
+    token: string,
+  }
 }
 
 const SIGN_UP = gql`
   mutation Mutation($user: AddUserInput!) {
-    addUser(user: $user) {
-      _id,
-      username
+    registerUser(user: $user) {
+      token
     }
   }
 `;
 
 export default function Component() {
     const formRef = useRef<HTMLFormElement>(null);
-    const [signup] = useMutation<SignupResponse>(SIGN_UP);
+    const [signup] = useMutation<AuthPayLoadData>(SIGN_UP);
     const navigate = useNavigate();
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -44,9 +42,9 @@ export default function Component() {
               user: formValues
             }
           });
-          if (data) {
-            alert("Signed up successfully! Please login.");
-            navigate('/login');
+          if (data && data.registerUser.token) {
+            localStorage.setItem('token', data.registerUser.token);
+            navigate('/');
           }
         }
       } catch (error: any) {
