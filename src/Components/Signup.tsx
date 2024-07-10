@@ -11,7 +11,6 @@ interface SignupData {
   age?: number;
 }
 
-
 interface SignupResponse {
     addUser: {
         _id: string,

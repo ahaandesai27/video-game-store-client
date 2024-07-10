@@ -1,17 +1,30 @@
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useJwt } from 'react-jwt';
 
 export default function Component() {
-    const location = useLocation();
+
     const [verified, setVerified] = useState<boolean | null>(null);
     const [name, setName] = useState<string | null>(null);
+    const navigate = useNavigate();
 
-    // Extract token from location.state if it exists
-    const token = location.state?.token;
+    // Extract token from localStorage
+    const token = localStorage.getItem('token');
     
     // Decode the token using useJwt hook if token exists
     const { decodedToken, isExpired } = useJwt<any>(token || '');
+
+    const logoutUser = () => {
+        if (localStorage.getItem('token')) {
+            localStorage.removeItem('token');
+            setVerified(false);
+            navigate('/login'); // Move the navigation inside this block
+        }
+    };
+
+    const loginNavigate = () => {
+        navigate('/login');
+    };
 
     useEffect(() => {
         if (!token || isExpired) {
@@ -38,9 +51,12 @@ export default function Component() {
     return (
         <div>
             {verified ? (
-                <h1 className="text-white text-transform: capitalize">Welcome, {name}</h1>
+                <>
+                    <h1 className="text-white text-transform: capitalize">Welcome, {name}</h1>
+                    <button onClick={logoutUser} className="text-white">Logout</button>
+                </>
             ) : (
-                <h1 className="text-white">Please <a href="/login">Login</a></h1>
+                <h1 className="text-white">Please <button onClick={loginNavigate}>Login</button></h1>
             )}
         </div>
     );

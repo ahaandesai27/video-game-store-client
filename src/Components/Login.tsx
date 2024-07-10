@@ -26,7 +26,7 @@ const LOGIN = gql`
 export default function Login() {
     const navigate = useNavigate();
     const formRef = useRef<HTMLFormElement>(null);
-    const [login, {data}] = useMutation<AuthPayLoadData>(LOGIN);
+    const [login] = useMutation<AuthPayLoadData>(LOGIN);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -40,7 +40,8 @@ export default function Login() {
             }
           });
           if (data && data.loginUser.token) {
-            navigate('/', {state: {token: data.loginUser.token}})
+            localStorage.setItem('token', data.loginUser.token);
+            navigate('/');
           }
         }
       } catch (error: any) {
