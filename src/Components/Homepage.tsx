@@ -53,10 +53,11 @@ export default function Component() {
             {verified ? (
                 <>
                     <h1 className="text-white text-transform: capitalize">Welcome, {name}</h1>
-                    <button onClick={logoutUser} className="text-white">Logout</button>
+                    <button onClick={(logoutUser)} className="text-white">Logout</button><br></br>
+                    <button onClick={() => {navigate('/games')}} className="text-white">Games</button>
                 </>
             ) : (
-                <h1 className="text-white">Please <button onClick={loginNavigate}>Login</button></h1>
+                <h1 className="text-white">Please <button onClick={() => {navigate('/login')}}>Login</button></h1>
             )}
         </div>
     );
