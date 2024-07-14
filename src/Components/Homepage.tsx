@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useJwt } from 'react-jwt';
+import Navbar from './Navbar';
 
 export default function Component() {
 
@@ -49,16 +50,9 @@ export default function Component() {
     }
 
     return (
-        <div>
-            {verified ? (
-                <>
-                    <h1 className="text-white text-transform: capitalize">Welcome, {name}</h1>
-                    <button onClick={(logoutUser)} className="text-white">Logout</button><br></br>
-                    <button onClick={() => {navigate('/games')}} className="text-white">Games</button>
-                </>
-            ) : (
-                <h1 className="text-white">Please <button onClick={() => {navigate('/login')}}>Login</button></h1>
-            )}
-        </div>
+        <>
+            <Navbar />
+            <div className="text-center pt-10 text-white text-4xl">Home Page </div>
+        </>
     );
 }

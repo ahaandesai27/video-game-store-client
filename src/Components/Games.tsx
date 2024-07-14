@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import { InView } from 'react-intersection-observer'
+import Navbar from './Navbar';
 
 interface Game {
     _id: string;
@@ -53,12 +54,12 @@ export default function Example() {
                     }
                 }
             })
-            console.log("Fetched more");
         }
     }
     
     return (
         <div className="bg-zinc-900 max-h-screen overflow-y-auto">
+            <Navbar/>
             <div className="max-w-xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-5xl lg:px-8">
                 <h2 className="sr-only">Products</h2>
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
