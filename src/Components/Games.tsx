@@ -1,8 +1,8 @@
 import { gql, useQuery } from '@apollo/client';
 import { InView } from 'react-intersection-observer'
 import Navbar from './Navbar';
-import { useState } from 'react';
-import { string } from 'prop-types';
+import React, { useEffect, useState } from 'react';
+const limit: number = 8;
 
 interface Game {
     _id: string;
@@ -15,11 +15,16 @@ interface Game {
 type DropdownProps = {
     title: string;
     items: string[];
+    setState: (value: string) => void;
 };
 
-const GET_PRODUCTS = gql`
-    query Games($offset: Int!, $limit: Int!) {
-        games(offset: $offset, limit: $limit) {
+type PriceProps = {
+    setPrice: (value: number) => void;
+}
+
+const GET_GAMES = gql`
+    query Games($offset: Int!, $limit: Int!, $platform: String, $price: Float) {
+        games(offset: $offset, limit: $limit, platform: $platform, price: $price) {
             _id
             title
             url
@@ -29,18 +34,26 @@ const GET_PRODUCTS = gql`
     }
 `;
 
-const limit: number = 8;
-
-const Dropdown: React.FC<DropdownProps> =  ({ title, items }) => {
+const Dropdown: React.FC<DropdownProps> =  ({ title, items, setState }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div className={`collapse collapse-arrow ${isOpen ? 'collapse-open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
             <div className="collapse-title text-lg cursor-pointer">{title}</div>
             <div className="collapse-content">
-                {items.map((item: string) => {
-                   return <p className='p-2 rounded-md hover:bg-gray-300 hover:bg-opacity-30 hover:text-white'>{item}</p>
-                })}
+                {
+                    items.map((item: string, index: number) => {
+                        return <div key={index}>
+                            <button className='p-2 w-full text-left rounded-md hover:bg-gray-300 hover:bg-opacity-30 hover:text-white' onClick={(e) => {
+                                e.stopPropagation();
+                                setState(item)
+                            }}>
+                            {item}
+                            </button>
+                            <br/>
+                        </div>
+                    })
+                }
             </div>
         </div>
     );
@@ -61,13 +74,53 @@ const SearchForm = () => {
     </form>
 </div>
 }
+
+const PriceSlider: React.FC<PriceProps> = ({setPrice}) => {
+    const [value, setValue] = useState<number | null>(null);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(parseInt(event.target.value));
+        setPrice(parseInt(event.target.value));
+    };
+
+    return (
+        <>
+            {
+                value === 0 ? <div className="text-white text-lg mt-8">Free</div> : <div className="text-white text-lg mt-8">Price {value && value}</div>
+            }
+            <input 
+                type="range" 
+                min="0" 
+                max="100" 
+                value={value} 
+                className="range range-accent mt-2" 
+                step="5" 
+                onChange={handleChange} 
+            />
+        </>
+    );
+};
+
 export default function Example() {
-    const { loading, error, data, fetchMore } = useQuery(GET_PRODUCTS, {
+    const [platform, setPlatform] = useState<string | null>(null);
+    const [price, setPrice] = useState<number | null>(null);
+
+    const { loading, error, data, fetchMore, refetch } = useQuery(GET_GAMES, {
         variables: { 
           offset: 0,
-          limit 
+          limit: limit,
         }
     });
+
+    useEffect(() => {
+        refetch({
+            offset: 0,
+            limit: limit,
+            platform: platform,
+            price: price !== null ? price : undefined
+        
+        })
+    }, [platform, price])
     
     const games: Game[] = data?.games || []
     
@@ -100,6 +153,9 @@ export default function Example() {
             <div className='flex'>
                 <div id="products" className="max-w-xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-5xl lg:px-8">
                     <h2 className="sr-only">Products</h2>
+                    {games && games.length === 0 && <div className="text-white text-xl">No games found</div>}
+                    {games && !platform && <><div className='text-white text-2xl font-bold'>All games</div> <br /></>}
+                    {games && platform && <><div className='text-white text-2xl font-bold'>{platform} games</div> <br /></>}
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {games.map((game: Game) => (
                             <a key={game._id} href={"games/" + game.url} className="group">
@@ -119,9 +175,10 @@ export default function Example() {
                 </div>
                 <div id="filters" className="hidden md:block lg:block">
                     <SearchForm />
-                    <Dropdown title="Price" items={['Free', '0-10']} />
-                    <Dropdown title="Genre" items={['Action', 'Adventure', 'RPG', 'Simulation', 'Strategy']} />
-                    <Dropdown title="Platform" items={['PC', 'PS5', 'Xbox', 'Switch']} />
+                    <PriceSlider setPrice={setPrice} />
+                    {/* <Dropdown title="Price" items={['Free', '0-10']} setState={setPrice}/> */}
+                    {/* <Dropdown title="Genre" items={['Action', 'Adventure', 'RPG', 'Simulation', 'Strategy']} setState={setPrice}/> */}
+                    <Dropdown title="Platform" items={['PC', 'PS5', 'Xbox', 'Switch']} setState={setPlatform}/>
                 </div>
             </div>
         </div>
