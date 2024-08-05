@@ -34,6 +34,7 @@ export default function Login() {
         if (formRef.current) {
           const formData = new FormData(formRef.current);
           const formValues = Object.fromEntries(formData.entries());
+          console.log(formValues);
           const {data} = await login({
             variables: {
               ...formValues
@@ -71,7 +72,7 @@ export default function Login() {
                   autoComplete="email"
                   type="email"
                   placeholder="Enter username or email  "
-                  className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block pl-2 w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>    
             </div>
@@ -91,7 +92,7 @@ export default function Login() {
                   required
                   autoComplete="current-password"
                   placeholder="Enter password"
-                  className="block pl-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block pl-2 w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
