@@ -1,6 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import Review from './Review';
+import PostReview from "./PostReview";
 
 type ReviewProps = {
     url: string;
@@ -34,11 +35,12 @@ const Reviews: React.FC<ReviewProps> = ({url}) =>  {
     }
     console.log(data.gameByUrl.reviews);
     return (
-        <div>
-            <div className="text-white text-2xl font-semibold px-20">Reviews</div>
+        <div className="lg:px-20 bg-black">
+            <div className="text-white text-2xl font-semibold">Reviews</div>
+            <PostReview gameUrl={url}/>
             {
                 data.gameByUrl.reviews.map((review: any, index: number) => {
-                    return <div className="px-20"><Review key={index} review={review} /></div>
+                    return <div><Review key={index} review={review} /></div>
                 })
             }
         </div>

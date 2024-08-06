@@ -1,7 +1,7 @@
 import { useParams } from "react-router"
 import { gql, useQuery } from '@apollo/client';
 import Navbar from "../Navbar";
-import Reviews from "./Reviews";
+import Reviews from "./Reviews/Reviews";
 
 const GET_GAME = gql`
     query Game($url: String!) {
@@ -61,10 +61,7 @@ export default function Component() {
                   {game.title}
                 </h1>
                 <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
-                  <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                    ${game.price}
-                  </p>
-    
+                  {game.price === 0 ? <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">Free</p> : <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">${game.price}</p>}
                   <div className="flex items-center gap-2 mt-2 sm:mt-0">
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
