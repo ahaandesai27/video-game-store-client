@@ -45,7 +45,7 @@ const PostReview = ({gameUrl}: Props) => {
         }
     }, [decodedToken, isExpired]);
 
-    const {loading, error, data} = useQuery(FETCH_GAME_URL, {
+    const {data} = useQuery(FETCH_GAME_URL, {
         variables: {
             url: gameUrl
         }

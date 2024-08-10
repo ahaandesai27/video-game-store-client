@@ -2,6 +2,7 @@ import { useParams } from "react-router"
 import { gql, useQuery } from '@apollo/client';
 import Navbar from "../Navbar";
 import Reviews from "./Reviews/Reviews";
+import SimilarGames from "./SimilarGames";
 
 const GET_GAME = gql`
     query Game($url: String!) {
@@ -16,6 +17,9 @@ const GET_GAME = gql`
             releaseDate
             title
             url
+            categories {
+              _id
+            }
         }
     }
 `
@@ -145,6 +149,7 @@ export default function Component() {
           </div>
         </section>
         {url && <Reviews url={url}/>}
+        {data.gameByUrl.categories && url && <SimilarGames categories={data.gameByUrl.categories} url={url}/>}
       </>
       );
-};
+};  

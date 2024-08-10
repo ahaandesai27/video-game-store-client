@@ -6,48 +6,88 @@ import PostReview from "./PostReview";
 type ReviewProps = {
     url: string;
 }
-const GET_REVIEW = gql`
+const GET_GAME_ID = gql`
     query Game($url: String!) {
         gameByUrl(url: $url) {
-            reviews {
-                date
-                rating
-                review
-                user {
-                    username
-                }
-            }
+            _id
         }
     }
 `
 
+const REVIEWS_BY_GAME = gql`
+    query reviews($game: ID!, $offset: Int!, $limit: Int!) {
+        reviewsByGame(game: $game, offset: $offset, limit: $limit) {
+            _id
+            review
+            rating
+            user {
+                username
+            }
+            date
+        }
+    }
+`
+const LIMIT = 3;
 const Reviews: React.FC<ReviewProps> = ({url}) =>  {
-    const {loading, error, data} = useQuery(GET_REVIEW, {
+    const {loading: idLoading, error: idError, data: id} = useQuery(GET_GAME_ID, {
         variables: {
-            url
+            url,
         }
     });
 
-    if (loading) return <p className="text-white">Loading...</p>;
-    if (error) {
-        console.error('Error fetching data:', error); // Log the error for debugging
+    if (idLoading) return <p className="text-white">Loading...</p>;
+    if (idError) {
+        console.error('Error fetching data:', idError); // Log the error for debugging
         return <p className="text-white">An error occurred</p>;
     }
-    console.log(data.gameByUrl.reviews);
+    const gameId: string = id.gameByUrl._id;
+
+    const {loading: reviewsLoading, error: reviewsError, data: reviewsData, fetchMore} = useQuery(REVIEWS_BY_GAME, {
+        variables: {
+            game: gameId,
+            offset: 0,
+            limit: LIMIT
+        }
+    });
+
+    const reviews = reviewsData?.reviewsByGame;
+    console.log(reviews)
+
+    const getMore = () => {
+        fetchMore({
+            variables: {
+                offset: reviews.length, // Adjust the offset logic
+                limit: LIMIT
+            },
+            updateQuery: (prev, { fetchMoreResult }) => {
+                if (!fetchMoreResult) return prev;
+                return {
+                    ...prev,
+                    reviewsByGame: [...prev.reviewsByGame, ...fetchMoreResult.reviewsByGame]
+                };
+            }
+        });
+    }
+    if (reviewsLoading) return <p className="text-white">Loading...</p>;
+    if (reviewsError) {
+        console.error('Error fetching data:', reviewsError); // Log the error for debugging
+        return <p className="text-white">An error occurred</p>;
+    }
+
     return (
         <div className="lg:px-20 bg-black">
             <div className="text-white text-2xl font-semibold">Reviews</div>
             <PostReview gameUrl={url}/>
             {
-                data.gameByUrl.reviews.map((review: any, index: number) => {
-                    return <div><Review key={index} review={review} /></div>
+                reviews && reviews.map((review: any) => {
+                    return <Review key={review._id} review={review} />
                 })
             }
+            <div className="text-center"><button onClick={getMore}>More Reviews</button></div>
         </div>
     )
 
 
 }
-
 
 export default Reviews;

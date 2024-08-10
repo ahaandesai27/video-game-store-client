@@ -16,7 +16,11 @@ const GameCard = ({_id, url, title, coverImage, price}: Game) => {
             />
         </div>
         <h3 className="mt-4 text-sm text-white">{title}</h3>
-        {price !== 0 ? <p className="mt-1 text-lg font-medium text-white">{price}$</p> : <p className="mt-1 text-lg font-medium text-white">Free</p>}
+        {price !== undefined && price !== null && price !== 0 && (
+            <p className="mt-1 text-lg font-medium text-white">
+                {price ? `${price}$` : "Free"}
+            </p>
+        )}
     </a>
 }
 
