@@ -75,7 +75,7 @@ const Reviews: React.FC<ReviewProps> = ({url}) =>  {
     }
 
     return (
-        <div className="lg:px-20 bg-black">
+        <div className="lg:px-20 bg-black" id="reviews">
             <div className="text-white text-2xl font-semibold">Reviews</div>
             <PostReview gameUrl={url}/>
             {

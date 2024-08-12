@@ -17,6 +17,10 @@ const GET_GAME = gql`
             releaseDate
             title
             url
+            reviews {
+              _id
+              rating
+            }
             categories {
               _id
             }
@@ -39,6 +43,7 @@ export default function Component() {
     }
 
     const game = data.gameByUrl;
+    const averageReview = game.reviews.reduce((acc: number, review: any) => acc + review.rating, 0) / game.reviews.length;
     return (
       <>
         <Navbar />
@@ -68,7 +73,7 @@ export default function Component() {
                   {game.price === 0 ? <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">Free</p> : <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">${game.price}</p>}
                   <div className="flex items-center gap-2 mt-2 sm:mt-0">
                     <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
+                      {[...Array(Math.floor(averageReview))].map((_, i) => (
                         <svg
                           key={i}
                           className="w-4 h-4 text-yellow-300"
@@ -86,13 +91,13 @@ export default function Component() {
                       ))}
                     </div>
                     <p className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
-                      (5.0)
+                      ({averageReview ? averageReview.toFixed(1) : 0})
                     </p>
                     <a
-                      href="#"
+                      href="#reviews"
                       className="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white"
                     >
-                      345 Reviews
+                      {game.reviews.length} Reviews
                     </a>
                   </div>
                 </div>

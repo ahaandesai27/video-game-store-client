@@ -18,7 +18,7 @@ const FETCH_SIMILAR_GAMES = gql`
     }
 `
 
-const LIMIT = 2;
+const LIMIT = 6;
 
 const SimilarGames: React.FC<Props> = ({categories, url}) => {
 
@@ -33,20 +33,20 @@ const SimilarGames: React.FC<Props> = ({categories, url}) => {
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error: {error.message}</div>
 
-    const getMore = () => {
-        fetchMore({
-            variables: {
-                offset: games?.length, 
-                limit: LIMIT
-            },
-            updateQuery: (prev, {fetchMoreResult}) => {
-                if (!fetchMoreResult) return prev;
-                return {
-                    gamesByCategory: [...prev.gamesByCategory, ...fetchMoreResult.gamesByCategory]
-                }
-            } 
-        })
-    }
+    // const getMore = () => {
+    //     fetchMore({
+    //         variables: {
+    //             offset: games?.length, 
+    //             limit: LIMIT
+    //         },
+    //         updateQuery: (prev, {fetchMoreResult}) => {
+    //             if (!fetchMoreResult) return prev;
+    //             return {
+    //                 gamesByCategory: [...prev.gamesByCategory, ...fetchMoreResult.gamesByCategory]
+    //             }
+    //         } 
+    //     })
+    // }
 
 
     //Fetch similar games based on categories
@@ -60,7 +60,6 @@ const SimilarGames: React.FC<Props> = ({categories, url}) => {
                     }
                 )}
             </div>
-            <button onClick={getMore} className="text-white">More Games</button>
         </div>
 }
 
