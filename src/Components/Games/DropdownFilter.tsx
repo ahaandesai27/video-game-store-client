@@ -3,10 +3,10 @@ import { useState } from "react";
 type DropdownProps = {
     title: string;
     items: string[];
-    setState: (value: string) => void;
+    setFilter: (value: string) => void;
 };
 
-const Dropdown: React.FC<DropdownProps> =  ({ title, items, setState }) => {
+const Dropdown: React.FC<DropdownProps> =  ({ title, items, setFilter }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -19,7 +19,7 @@ const Dropdown: React.FC<DropdownProps> =  ({ title, items, setState }) => {
                             <button className='p-2 w-full text-left rounded-md hover:bg-gray-300 hover:bg-opacity-30 hover:text-white' onClick={
                                 (e) => {
                                     e.stopPropagation();
-                                    setState(item)
+                                    setFilter(item)
                                 }
                             }
                             >{item}</button>

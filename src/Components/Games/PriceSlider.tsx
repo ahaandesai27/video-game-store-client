@@ -15,7 +15,7 @@ const PriceSlider: React.FC<PriceProps> = ({setPrice}) => {
     return (
         <>
             {
-                value === 0 ? <div className="text-white text-lg mt-8">Free</div> : <div className="text-white text-lg mt-8">Price {value && value}</div>
+                value === 0 ? <div className="text-white text-lg mt-8">Free</div> : <div className="text-white text-lg mt-8">Price : {value && value}</div>
             }
             <input 
                 type="range" 
