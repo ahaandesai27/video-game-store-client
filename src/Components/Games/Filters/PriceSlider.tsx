@@ -21,7 +21,7 @@ const PriceSlider: React.FC<PriceProps> = ({setPrice}) => {
                 type="range" 
                 min="0" 
                 max="100" 
-                className="range range-accent mt-2" 
+                className="range range-neutral mt-2" 
                 step="5" 
                 onChange={handleChange} 
             />

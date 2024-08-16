@@ -4,11 +4,12 @@ import { InView } from 'react-intersection-observer'
 
 import Navbar from '../Navbar';
 import GameCard from './GameCard';  
-import Filter from './DropdownFilter';
-import SearchForm from './SearchForm';
-import PriceSlider from './PriceSlider';  
+import PlatformFilter from './Filters/PlatformFilter';
+import SearchForm from './Filters/SearchForm';
+import PriceSlider from './Filters/PriceSlider';  
+import CategoryFilter from './Filters/CategoryFilter';
 
-const limit: number = 8;
+const limit: number = 8;    
 
 interface Game {
     _id: string;
@@ -19,8 +20,8 @@ interface Game {
 }
 
 const GET_GAMES = gql`
-    query Games($offset: Int!, $limit: Int!, $platform: String, $price: Float, $search: String) {
-        games(offset: $offset, limit: $limit, platform: $platform, price: $price, search: $search) {
+    query Games($offset: Int!, $limit: Int!, $platform: String, $price: Float, $search: String, $category: ID) {
+        games(offset: $offset, limit: $limit, platform: $platform, price: $price, search: $search, category: $category) {
             _id
             title
             url
@@ -30,11 +31,13 @@ const GET_GAMES = gql`
     }
 `;
 
+
+
 export default function Example() {
     const [platform, setPlatform] = useState<string | null>(null);
     const [price, setPrice] = useState<number | null>(null);
     const [search, setSearch] = useState<string | null>(null);
-    //const [genre, setGenre] = useState<string | null>(null);
+    const [category, setCategory] = useState<string | null>(null);
 
     //Initial fetch
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_GAMES, {
@@ -53,9 +56,11 @@ export default function Example() {
             limit: limit,
             platform: platform,
             price: price !== null ? price : undefined,
-            search: search
+            search: search,
+            category: category
         })
-    }, [platform, price, search])
+        console.log(platform, price, search, category)
+    }, [platform, price, search, category])
     
     //Gets more games on scrolling
     const getMore = (inView: any ) => {
@@ -92,7 +97,6 @@ export default function Example() {
                     {games && !platform && search == "" && <><div className='text-white text-2xl font-bold'>All games</div> <br /></>}
                     {games && platform && games.length != 0 && <><div className='text-white text-2xl font-bold'>{platform} games</div> <br /></>}
                     {games && search && games.length != 0 && <><div className='text-white text-2xl font-bold'>Search results for "{search}"</div> <br /></>}
-                    
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {games && games.map((game: Game) => <GameCard key={game._id} {...game} />)}
                     </div>
@@ -104,8 +108,8 @@ export default function Example() {
                 <div id="filters" className="hidden md:block lg:block">
                     <SearchForm setSearch={setSearch}/>
                     <PriceSlider setPrice={setPrice} />
-                    <Filter title="Platform" items={['PC', 'PS5', 'Xbox', 'Switch']} setFilter={setPlatform}/>
-                    {/* <Filter title="Genre" items={['Action', 'Adventure', 'RPG', 'Simulation', 'Strategy']} setState={setGenre}/> */}
+                    <PlatformFilter setFilter={setPlatform}/>
+                    <CategoryFilter setFilter={setCategory}/>
                 </div>
 
             </div>

@@ -22,7 +22,7 @@ const LIMIT = 6;
 
 const SimilarGames: React.FC<Props> = ({categories, url}) => {
 
-    const {loading, error, data, fetchMore} = useQuery(FETCH_SIMILAR_GAMES, {
+    const {loading, error, data} = useQuery(FETCH_SIMILAR_GAMES, {
         variables: {categories: categories ? categories.map((category: any) => category._id) : [],
             offset: 0, 
             limit: LIMIT
@@ -32,21 +32,6 @@ const SimilarGames: React.FC<Props> = ({categories, url}) => {
 
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error: {error.message}</div>
-
-    // const getMore = () => {
-    //     fetchMore({
-    //         variables: {
-    //             offset: games?.length, 
-    //             limit: LIMIT
-    //         },
-    //         updateQuery: (prev, {fetchMoreResult}) => {
-    //             if (!fetchMoreResult) return prev;
-    //             return {
-    //                 gamesByCategory: [...prev.gamesByCategory, ...fetchMoreResult.gamesByCategory]
-    //             }
-    //         } 
-    //     })
-    // }
 
 
     //Fetch similar games based on categories

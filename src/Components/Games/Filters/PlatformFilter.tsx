@@ -1,17 +1,15 @@
 import { useState } from "react";
 
 type DropdownProps = {
-    title: string;
-    items: string[];
     setFilter: (value: string) => void;
 };
 
-const Dropdown: React.FC<DropdownProps> =  ({ title, items, setFilter }) => {
+const Filter: React.FC<DropdownProps> =  ({setFilter }) => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const items = ['PC', 'PS5', 'Xbox', 'Switch'];
     return (
         <div className={`collapse collapse-arrow ${isOpen ? 'collapse-open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
-            <div className="collapse-title text-lg cursor-pointer">{title}</div>
+            <div className="collapse-title text-lg cursor-pointer">{"Platform"}</div>
             <div className="collapse-content">
                 {
                     items.map((item: string, index: number) => {
@@ -32,4 +30,4 @@ const Dropdown: React.FC<DropdownProps> =  ({ title, items, setFilter }) => {
     );
 };
 
-export default Dropdown;
+export default Filter;
