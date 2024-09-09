@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 type Review = {
     _id: string;
     rating: number;
@@ -25,6 +27,24 @@ type Props = {
 
 const Component = ({game}: Props) => {
     const averageReview = game?.reviews?.reduce((acc: number, review: any) => acc + review.rating, 0) / game.reviews.length | 0;
+    const date = new Date(game.releaseDate);
+    const navigate = useNavigate();
+
+    // Extracting month, day, and year
+    const options: any = { month: 'long', day: 'numeric', year: '2-digit' };
+    const dateString: any = date.toLocaleDateString('en-US', options);
+
+    const checkOut = () => {
+      const { _id, price, title } = game;
+      const gameData = { _id, price, title };
+      console.log(gameData)
+      navigate(`/games/${game.url}/buy`, { state: gameData });
+    };
+
+    const addGame = () => {
+      console.log("game added !! :) ")
+    }
+    
     return <section className="py-8 bg-white md:py-16 dark:bg-black antialiased">
           <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
             <div className="lg:grid lg:grid-cols-3 lg:gap-8 xl:gap-16">
@@ -51,15 +71,15 @@ const Component = ({game}: Props) => {
                   </div>
                 </div>
                 <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                  <a href="#" title="" className="flex items-center justify-center px-8 py-3 rounded-lg bg-purple-500 text-white hover:bg-purple-300" role="button">
-                    <div className="font-extrabold"></div>Buy Now
-                  </a>
-                  <a href="#" title="" className="text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center" role="button">
+                  <button onClick={game.price == 0 ? addGame : checkOut} title="" className="flex items-center justify-center px-8 py-3 rounded-lg bg-purple-500 text-white hover:bg-purple-300" role="button">
+                    <div className="font-extrabold"></div>{game.price == 0 ? "Add to Library" : "Buy Now"}
+                  </button>
+                  <button onClick={() => {}} title="" className="text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center" role="button">
                     <svg className="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
                     </svg>
                     Add to cart
-                  </a>
+                  </button>
                 </div>
                 <hr className="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
                 <div className="flex">
@@ -78,16 +98,16 @@ const Component = ({game}: Props) => {
                             <td className="py-2">{game.publisher}</td>
                           </tr>
                           <tr className="border-b border-gray-700">
-                            <td className="py-2 font-semibold text-white">Platform:</td>
+                            <td className="py-2 font-semibold text-white">Platforms:</td>
                             <td className="py-2">
                               {game.platform.map((g, index) => (
-                                <span key={index} className="mr-2">{g}</span>
+                                <span key={index} className="mr-2">{g}{index < game.platform.length - 1 && ','}</span>
                               ))}
                             </td>
                           </tr>
                           <tr>
                             <td className="py-2 font-semibold text-white">Release Date:</td>
-                            <td className="py-2">{game.releaseDate}</td>
+                            <td className="py-2">{dateString}</td>
                           </tr>
                         </tbody>
                       </table>

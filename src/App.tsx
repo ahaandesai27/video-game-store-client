@@ -5,6 +5,7 @@ import Signup from './Components/Signup';
 import Homepage from './Components/Homepage';
 import Games from './Components/Games/Games';
 import Game from './Components/Games/GamePage';
+import Payments from './Components/Payments';
 function Header() {
   return <div className="h1 pl-10   text-white text-3xl p-4 rounded-lg relative bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg">
     Game Shop
@@ -20,6 +21,7 @@ function App() {
         <Route path="/signup" element={<><Header /><Signup /> </>} />
         <Route path="/games" element={<Games />} />
         <Route path="/games/:url/*" element={<><Game /> </>} />
+        <Route path="/games/:gameURL/buy" element={<><Payments /></>} />
       </Routes>
     </Router>
 }

@@ -1,0 +1,44 @@
+/* Ensures the container takes up the full height of the viewport */
+.full-height-container {
+    min-height: 100vh;
+    background: linear-gradient(to right, #1d3168a1, #004080, #003366);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.full-height-container-error {
+    height: 100vh;
+    background: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Styles the heading */
+.heading {
+    font-size: 2.25rem; /* Equivalent to text-4xl in Tailwind */
+    font-weight: bold;
+    color: #ffffff; /* Tailwind's white */
+    margin-bottom: 20px;
+}
+
+/* Styles the inner container with padding */
+.inner-container {
+    background-color: #ffffff; /* Tailwind's blue-900 */
+    padding: 20px; /* Equivalent to px-20 in Tailwind */
+    border-radius: 8px;
+    width: 50%; /* Equivalent to w-1/2 in Tailwind */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
+}
+
+/* Optional: Adds padding around the PayPal button */
+.paypal-button {
+    padding: 10px; /* Equivalent to p-10 in Tailwind */
+}

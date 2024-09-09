@@ -1,5 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
 import React, { useState } from "react";
+import CheckboxWithFilter from "./CategoryCheckbox";
 
 type DropdownProps = {
     setFilter: (value: string) => void;
@@ -21,8 +22,8 @@ const GET_CATEGORIES = gql`
 
 const Filter: React.FC<DropdownProps> = ({setFilter}) => {
     const [isOpen, setIsOpen] = useState(false);
-    
     const {loading, error, data} = useQuery(GET_CATEGORIES);
+
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>An error occured</p>
@@ -33,16 +34,7 @@ const Filter: React.FC<DropdownProps> = ({setFilter}) => {
                 {
                     data?.categories.map((category : Category, index: number) => {
                         const {name, _id} = category;
-                        return <div key={index}>
-                            <button className='p-2 w-full text-left rounded-md hover:bg-gray-300 hover:bg-opacity-30 hover:text-white' onClick={
-                                (e) => {
-                                    e.stopPropagation();
-                                    setFilter(_id)
-                                }
-                            }
-                            >{name}</button>
-                            <br/>
-                        </div>
+                        return <CheckboxWithFilter key={index} _id={_id} name={name} setFilter={setFilter} />
                     })
                 }
             </div>
