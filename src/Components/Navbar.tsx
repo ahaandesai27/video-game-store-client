@@ -36,7 +36,7 @@ export default function Navbar () {
     return <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-purple-950 overflow-y-hidden">
     <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
         <a className="flex items-center">
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">GameShop</span>
+            <span className="self-center text-xl font-semibold whitespace-nowrap text-gray-800 dark:text-white">GameShop</span>
         </a>
 
         <div className="flex items-center lg:order-2">
