@@ -1,11 +1,13 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Login from './Components/Login'
-import Signup from './Components/Signup';
+import Login from './Components/Auth/Login'
+import Signup from './Components/Auth/Signup';
 import Homepage from './Components/Homepage';
-import Games from './Components/Games/Games';
+import Games from './Components/Games';
 import Game from './Components/Games/GamePage';
 import Payments from './Components/Payments';
+import Library from './Components/Library';
+
 function Header() {
   return <div className="h1 pl-10   text-white text-3xl p-4 rounded-lg relative bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg">
     Game Shop
@@ -22,6 +24,7 @@ function App() {
         <Route path="/games" element={<Games />} />
         <Route path="/games/:url/*" element={<><Game /> </>} />
         <Route path="/games/:gameURL/buy" element={<><Payments /></>} />
+        <Route path="/library" element={<> <Library /> </>} />
       </Routes>
     </Router>
 }

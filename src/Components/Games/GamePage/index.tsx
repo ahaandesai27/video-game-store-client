@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import { gql, useQuery } from '@apollo/client';
-import Navbar from "../Navbar";
-import Reviews from "./Reviews/Reviews";
+import Navbar from "../../Navbar";
+import Reviews from "../Reviews/Reviews";
 import SimilarGames from "./SimilarGames";
 import GameInfo from './GameInfo';
 
