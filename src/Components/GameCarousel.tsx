@@ -13,13 +13,13 @@ const GameCarousel = () => {
 
   return (
     <div className="flex justify-center items-center  bg-black py-6 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-4xl">
+      <div className="w-full">
         <h2 className="text-center text-4xl font-bold text-white mb-8">
           Featured Games
         </h2>
         <Carousel
           axis="horizontal"
-          showArrows={false}
+          showArrows={true}
           showStatus={false}
           showThumbs={false}
           infiniteLoop={true}
@@ -28,11 +28,11 @@ const GameCarousel = () => {
           transitionTime={1000}
         >
           {games.map((game) => (
-            <div key={game.id} className="relative h-72">
+            <div key={game.id} className="relative flex justify-center items-center" style={{height: '500px'}}>
               <img
                 src={game.image}
                 alt={`Game ${game.id}`}
-                className="w-full h-72 object-cover rounded-lg shadow-lg"
+                className="w-full object-cover rounded-lg shadow-lg"
               />
             </div>
           ))}

@@ -1,6 +1,6 @@
 import Navbar from "../Navbar";
 import { gql, useQuery } from '@apollo/client';
-import { useUser } from "../../context/usercontext";
+import { useUser } from "../../context/UserContext";
 //Todo - Implement pagination
 
 const GET_USER_GAMES = gql`
@@ -50,7 +50,7 @@ export default function Library() {
 
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error: {error.message}</div>
-    if (!games.length) return <div className="text-4xl font-bold p-5 text-white px-16"> No games in your library </div>
+    if (!games.length) return <> <Navbar /> <div className="text-4xl font-bold p-5 text-white px-16"> No games in your library </div> </>
     
     return <>
         <Navbar />
