@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import './Payments.css'
+import './styles.css'
 import { useLocation } from "react-router-dom";
 // Renders errors or successfull transactions on the screen.
 function Message({ content } : any) {

@@ -1,7 +1,8 @@
 import Navbar from './Navbar';
-import GameCarousel from './GameCarousel';
 
 export default function Homepage() {
+    const { userId } = useUser();
+    console.log(userId);
     return (
         <div className="bg-black text-white min-h-screen">
             <Navbar />

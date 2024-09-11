@@ -1,6 +1,6 @@
 import { useQuery, gql } from "@apollo/client"
 import React from "react"
-import GameCard from "./GameCard"
+import GameCard from "../GameCard"
 
 type Props = {
     categories: [string]

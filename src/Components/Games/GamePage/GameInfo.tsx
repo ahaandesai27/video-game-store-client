@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router";
-
+import {gql, useMutation} from "@apollo/client"
+import { useJwt } from "react-jwt";
+import { useState, useEffect } from "react";
 type Review = {
     _id: string;
     rating: number;
@@ -25,14 +27,26 @@ type Props = {
     game: Game
 }
 
+const ADD_GAME_TO_USER = gql`
+mutation addGameToUser($gameID: ID!, $userID: ID!){
+  addGameToUser(gameID: $gameID, userID: $userID){
+    _id,
+    ownedGames {
+      _id
+    }
+  }
+}
+`;
+
 const Component = ({game}: Props) => {
     const averageReview = game?.reviews?.reduce((acc: number, review: any) => acc + review.rating, 0) / game.reviews.length | 0;
     const date = new Date(game.releaseDate);
     const navigate = useNavigate();
-
-    // Extracting month, day, and year
     const options: any = { month: 'long', day: 'numeric', year: '2-digit' };
     const dateString: any = date.toLocaleDateString('en-US', options);
+    const [addGameToUser] = useMutation(ADD_GAME_TO_USER);
+    const {decodedToken, isExpired} = useJwt<any>(localStorage.getItem('token') || '');
+    const [userId, setUserId] = useState<string | null>(null);
 
     const checkOut = () => {
       const { _id, price, title } = game;
@@ -41,9 +55,30 @@ const Component = ({game}: Props) => {
       navigate(`/games/${game.url}/buy`, { state: gameData });
     };
 
-    const addGame = () => {
-      console.log("game added !! :) ")
+    const addGame = async () => {
+      const {data} = await addGameToUser({
+        variables: {
+          gameID: game._id,
+          userID: userId
+        }
+      });
+      console.log(data);
+      alert("Game added to library!");
     }
+
+    useEffect(() => {
+      try {
+          if (isExpired) {
+              console.log('Token is expired');
+              return;
+          }
+          if (decodedToken) {
+              setUserId(decodedToken.userId);
+          }
+      } catch (error: any) {
+          console.error('Error validating user:', error); // Log the error for debugging
+      }
+  }, [decodedToken, isExpired]);
     
     return <section className="py-8 bg-white md:py-16 dark:bg-black antialiased">
           <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
