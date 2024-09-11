@@ -1,7 +1,7 @@
 import { FormEvent, useRef } from "react"
 import { gql, useMutation } from "@apollo/client"
 import { useNavigate } from "react-router-dom"
-
+import { onTokenChange, emitTokenChange } from "../../utils/eventEmitter"
 interface AuthPayLoadData {
     loginUser: {
       token: string,
@@ -42,6 +42,7 @@ export default function Login() {
           });
           if (data && data.loginUser.token) {
             localStorage.setItem('token', data.loginUser.token);
+            emitTokenChange(data.loginUser.token);
             navigate('/');
           }
         }

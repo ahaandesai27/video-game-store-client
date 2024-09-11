@@ -1,5 +1,6 @@
-import React, { useContext, createContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useJwt } from "react-jwt";
+import { onTokenChange } from "../utils/eventEmitter"; // Import the custom event functions
 
 interface UserContextValue {
   userId: string | null;
@@ -12,11 +13,21 @@ interface UserProviderProps {
 const UserContext = createContext<UserContextValue>({ userId: null });
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const { decodedToken, isExpired } = useJwt<any>(localStorage.getItem('token') || '');
+  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const { decodedToken, isExpired } = useJwt<any>(token || '');
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
+    const unsubscribe = onTokenChange((newToken) => {
+      setToken(newToken);
+    });
+
+    return unsubscribe; // Cleanup the listener
+  }, []);
+
+  useEffect(() => {
     if (isExpired) {
+      setUserId(null);
       return;
     }
     if (decodedToken) {
@@ -29,6 +40,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
-}
+};
 
 export const useUser = () => useContext(UserContext);

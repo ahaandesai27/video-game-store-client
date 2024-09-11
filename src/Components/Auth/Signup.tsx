@@ -1,11 +1,11 @@
 import { FormEvent, useRef } from "react";
 import { gql, useMutation } from "@apollo/client"
 import { useNavigate } from "react-router-dom";
-
+import { emitTokenChange } from "../../utils/eventEmitter"
 interface SignupData {
   username?: string; 
   email?: string;
-  password?: string; // needs to bcrypt
+  password?: string; 
   firstName?: string;
   lastName?: string;
   age?: number;
@@ -44,6 +44,7 @@ export default function Component() {
           });
           if (data && data.registerUser.token) {
             localStorage.setItem('token', data.registerUser.token);
+            emitTokenChange(data.loginUser.token);
             navigate('/');
           }
         }
