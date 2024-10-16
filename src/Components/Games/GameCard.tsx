@@ -6,15 +6,16 @@ interface Game {
     url: string;
     price: number;
     coverImage: string;
+    link: string;
 }
 
-const GameCard = ({_id, url, title, coverImage, price}: Game) => {
+const GameCard = ({_id, url, title, coverImage, price, link = ""}: Game) => {
     const [src, setSrc] = useState(coverImage);
 
     const handleImageError = () => {
         setSrc("https://static.vecteezy.com/system/resources/thumbnails/001/826/199/small_2x/progress-loading-bar-buffering-download-upload-and-loading-icon-vector.jpg");
     }
-    return <a key={_id} href={"games/" + url} className="group">
+    return <a key={_id} href={link ? link : "games/" + url} className="group">
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
             <img
                 alt={url}

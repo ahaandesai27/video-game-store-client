@@ -7,6 +7,7 @@ import Games from './Components/Games';
 import Game from './Components/Games/GamePage';
 import Payments from './Components/Payments';
 import Library from './Components/Library';
+import ShoppingCart from './Components/Cart';
 
 function Header() {
   return <div className="h1 pl-10   text-white text-3xl p-4 rounded-lg relative bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg">
@@ -25,6 +26,7 @@ function App() {
         <Route path="/games/:url/*" element={<><Game /> </>} />
         <Route path="/games/:gameURL/buy" element={<><Payments /></>} />
         <Route path="/library" element={<> <Library /> </>} />
+        <Route path='/cart' element={<> <ShoppingCart /> </>} />
       </Routes>
     </Router>
 }

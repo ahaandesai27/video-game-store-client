@@ -1,7 +1,8 @@
-import { FormEvent, useRef } from "react"
+import { FormEvent, useRef, useState } from "react"
 import { gql, useMutation } from "@apollo/client"
 import { useNavigate } from "react-router-dom"
 import { onTokenChange, emitTokenChange } from "../../utils/eventEmitter"
+import ErrorModal from "./ErrorModal"
 interface AuthPayLoadData {
     loginUser: {
       token: string,
@@ -27,6 +28,7 @@ export default function Login() {
     const navigate = useNavigate();
     const formRef = useRef<HTMLFormElement>(null);
     const [login] = useMutation<AuthPayLoadData>(LOGIN);
+    const [loginError, setLoginError] = useState<boolean>(false);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -40,6 +42,7 @@ export default function Login() {
               ...formValues
             }
           });
+          console.log(data);
           if (data && data.loginUser.token) {
             localStorage.setItem('token', data.loginUser.token);
             emitTokenChange(data.loginUser.token);
@@ -47,7 +50,6 @@ export default function Login() {
           }
         }
       } catch (error: any) {
-        console.log(error.message);
         alert(error.message);
       } 
     }
@@ -114,6 +116,11 @@ export default function Login() {
           </form>
 
         </div>
+        <ErrorModal
+          show = {loginError}
+          handleClose={() => setLoginError(false)}
+          errorMessage="Login Unsuccessful!"
+        />
       </div>
     )
 }

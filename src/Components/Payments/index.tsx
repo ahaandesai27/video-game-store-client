@@ -2,6 +2,8 @@ import { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import './styles.css'
 import { useLocation } from "react-router-dom";
+import {gql, useMutation} from "@apollo/client"
+import { useUser } from "../../context/UserContext";
 // Renders errors or successfull transactions on the screen.
 function Message({ content } : any) {
     return <p>{content}</p>;
@@ -13,10 +15,22 @@ type gameData = {
     title: string;
 }
 
+const ADD_GAME_TO_USER = gql`
+mutation addGameToUser($gameID: ID!, $userID: ID!){
+  addGameToUser(gameID: $gameID, userID: $userID){
+    _id,
+    ownedGames {
+      _id
+    }
+  }
+}
+`;
+
 function App() {
     const location = useLocation();
     const {_id, price, title} : gameData = location.state || {};
     console.log(location.state)
+    const [addGameToUser] = useMutation(ADD_GAME_TO_USER);
     const initialOptions = {
         "clientId": "ARfKGgVVwPk0nfJsiyxG-OjJt6yMkbVsBnGnKB0T9YyIeL8aZP-gHWOBnuh6P25xPtPZVcj6Bixx6woa",
         "enable-funding": "venmo",
@@ -26,6 +40,7 @@ function App() {
         "components": "buttons",
         "data-sdk-integration-source": "developer-studio",
     };
+    const {userId} = useUser();
 
     const [message, setMessage] = useState("");
 
@@ -115,11 +130,18 @@ function App() {
                 setMessage(
                     `Transaction ${transaction.status}: ${transaction.id}. See console for all available details`
                 );
+                const {data} = await addGameToUser({
+                    variables: {
+                        gameID: _id,
+                        userID: userId
+                    }
+                });
                 console.log(
                     "Capture result",
                     orderData,
                     JSON.stringify(orderData, null, 2)
                 );
+
             }
         } catch (error) {
             console.error(error);

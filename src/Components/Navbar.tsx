@@ -2,6 +2,7 @@ import { useNavigate } from "react-router"
 import { useEffect, useState } from "react";
 import { useJwt } from 'react-jwt';
 import userlogo from '../assets/user.svg'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 export default function Navbar () { 
     const [verified, setVerified] = useState<boolean | null>(null);
@@ -40,6 +41,9 @@ export default function Navbar () {
         </a>
 
         <div className="flex items-center lg:order-2">
+            <button className="px-6" onClick={ () => {navigate('/cart')}}>
+                <ShoppingCartIcon/>
+            </button>
             {verified ? 
             (<>
                 <button className="bg-purple-500 text-white font-bold py-1 px-3 rounded-full">
