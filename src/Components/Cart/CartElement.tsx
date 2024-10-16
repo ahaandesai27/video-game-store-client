@@ -12,7 +12,6 @@ const REMOVE_GAME_FROM_CART = gql`
 
 `
 
-
 export default function CartElement({ game }: any) {
     const neturl: string = `/games/${game.url}`
     const {userId} = useUser();
