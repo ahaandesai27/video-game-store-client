@@ -28,7 +28,7 @@ const GameCarousel = () => {
           transitionTime={1000}
         >
           {games.map((game) => (
-            <div key={game.id} className="relative flex justify-center items-center" style={{height: '500px'}}>
+            <div key={game.id} className="relative flex justify-center items-center" style={{height: '25rem'}}>
               <img
                 src={game.image}
                 alt={`Game ${game.id}`}
