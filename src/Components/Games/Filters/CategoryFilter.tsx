@@ -29,7 +29,7 @@ const Filter: React.FC<DropdownProps> = ({setFilter}) => {
     if (error) return <p>An error occured</p>
     return (
         <div className={`collapse collapse-arrow ${isOpen ? 'collapse-open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
-            <div className="collapse-title text-lg cursor-pointer">{"Categories"}</div>
+            <div className="collapse-title text-lg cursor-pointer" style={{"fontFamily": "Allerta, sans-serif"}}>{"Categories"}</div>
             <div className="collapse-content">
                 {
                     data?.categories.map((category : Category, index: number) => {

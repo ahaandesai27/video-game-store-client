@@ -19,7 +19,7 @@ const CheckboxWithFilter: React.FC<Props> = ({ _id, name, setFilter }) => {
   };
 
   return (
-    <div>
+    <div style={{"fontFamily": "Allerta, sans-serif"}}>
       <input
         type="checkbox"
         id={_id}

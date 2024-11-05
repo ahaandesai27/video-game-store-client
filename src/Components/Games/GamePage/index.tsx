@@ -45,11 +45,11 @@ export default function Component() {
     const categories: [string] = data?.gameByUrl.categories;
     
     return (
-      <>
+      <div style={{"fontFamily": "Allerta, sans-serif"}}>
         <Navbar />
         {game && <GameInfo game={game} />}
         {url && <Reviews url={url} />}
         {categories && url && <SimilarGames categories={categories} url={url} />}
-      </>
+      </div>
     );
 };

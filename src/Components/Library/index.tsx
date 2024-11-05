@@ -19,7 +19,7 @@ const GET_USER_GAMES = gql`
 const GameBar = ({ game }: any) => {
     const neturl: string = `/games/${game.url}`
     return (
-        <div className="p-1">
+        <div className="p-1" style={{"fontFamily": "Allerta, sans-serif"}}>
             <a
                 className="flex items-center p-2"
                 style={{

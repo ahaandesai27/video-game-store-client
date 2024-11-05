@@ -2,8 +2,10 @@ import Navbar from '../Navbar';
 import GameCarousel from './GameCarousel'; 
 import NewReleases from './NewReleases';
 import Recomms from './Recomms'
+import { useUser } from '../../context/UserContext';
 
-export default function Homepage() {;
+export default function Homepage() {
+    const {userId} = useUser();
     return (
         <div className="bg-black text-white min-h-screen">
             <Navbar />
@@ -21,10 +23,14 @@ export default function Homepage() {;
                 New Releases
             </div>
             <NewReleases />
-            <div className="pt-4 sm:px-8 px-5 text-4xl font-bold text-white mb-8">
-                Recommended for you
+            {userId && 
+            <div>
+                <div className="pt-4 sm:px-8 px-5 text-4xl font-bold text-white mb-8">
+                    Recommended for you
+                </div>  
+                <Recomms /> 
             </div>
-            <Recomms />
+            }
 
         </div>
     );

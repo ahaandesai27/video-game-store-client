@@ -13,7 +13,7 @@ const PriceSlider: React.FC<PriceProps> = ({setPrice}) => {
     };
 
     return (
-        <>
+        <div style={{"fontFamily": "Allerta, sans-serif"}}>
             {
                 value === 0 ? <div className="text-white text-lg mt-8">Free</div> : <div className="text-white text-lg mt-8">Price : {value && value}</div>
             }
@@ -25,7 +25,7 @@ const PriceSlider: React.FC<PriceProps> = ({setPrice}) => {
                 step="5" 
                 onChange={handleChange} 
             />
-        </>
+        </div>
     );
 };
 

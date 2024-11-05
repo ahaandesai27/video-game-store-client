@@ -98,7 +98,7 @@ export default function Example() {
                     {games && platform && games.length != 0 && <><div className='text-white text-2xl font-bold'>{platform} games</div> <br /></>}
                     {games && search && games.length != 0 && <><div className='text-white text-2xl font-bold'>Search results for "{search}"</div> <br /></>}
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                        {games && games.map((game: Game) => <GameCard key={game._id} {...game} />)}
+                        {games && games.map((game: Game) => <GameCard key={game._id} link={""} {...game} />)}
                     </div>
                     
                     {games &&  (<InView as="div" onChange={getMore}></InView>)}

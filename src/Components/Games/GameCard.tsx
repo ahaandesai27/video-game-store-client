@@ -24,7 +24,7 @@ const GameCard = ({_id, url, title, coverImage, price, link = ""}: Game) => {
                 onError={handleImageError}
             />
         </div>
-        <h3 className="mt-4 text-sm text-white">{title}</h3>
+        <h3 className="mt-4 text-sm text-white" style={{"fontFamily": "Allerta, sans-serif"}}>{title}</h3>
         {price !== undefined && price !== null && (
             <p className="mt-1 text-lg font-medium text-white">
                 {price != 0 ? `${price}$` : "Free"}

@@ -18,7 +18,7 @@ const FETCH_SIMILAR_GAMES = gql`
     }
 `
 
-const LIMIT = 6;
+const LIMIT = 8;
 
 const SimilarGames: React.FC<Props> = ({categories, url}) => {
 
@@ -37,7 +37,7 @@ const SimilarGames: React.FC<Props> = ({categories, url}) => {
     //Fetch similar games based on categories
     return <div id="products" className="px-20 bg-black">
             {games.length !== 0 && <div className="text-4xl m-2 text-white font-bold">Similar games</div>}
-            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 xl:gap-x-8">
+            <div className="grid grid-cols-4 gap-x-6 gap-y-10 sm:grid-cols-4 lg:grid-cols-8 xl:gap-x-8">
                 {games && games.map((game: any) => {
                         if (game.url != url) {
                             return <GameCard key={game._id} link={game.url} {...game} />

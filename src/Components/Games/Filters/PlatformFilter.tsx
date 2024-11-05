@@ -9,7 +9,7 @@ const Filter: React.FC<DropdownProps> =  ({setFilter }) => {
     const items = ['PC', 'PS5', 'Xbox', 'Switch'];
     return (
         <div className={`collapse collapse-arrow ${isOpen ? 'collapse-open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
-            <div className="collapse-title text-lg cursor-pointer">{"Platform"}</div>
+            <div className="collapse-title text-lg cursor-pointer" style={{"fontFamily": "Allerta, sans-serif"}}>{"Platform"}</div>
             <div className="collapse-content">
                 {
                     items.map((item: string, index: number) => {
@@ -19,7 +19,7 @@ const Filter: React.FC<DropdownProps> =  ({setFilter }) => {
                                     e.stopPropagation();
                                     setFilter(item)
                                 }
-                            }
+                            } style={{"fontFamily": "Allerta, sans-serif"}}
                             >{item}</button>
                             <br/>
                         </div>

@@ -30,7 +30,7 @@ export default function Library() {
     if (error) return <div>Error: {error.message}</div>
     if (!games.length) return <> <Navbar /> <div className="text-4xl font-bold p-5 text-white px-16"> No games in your cart </div> </>
     
-    return <>
+    return <div style={{"fontFamily": "Allerta, sans-serif"}}>
         <Navbar />
         <div className="text-4xl font-bold p-5 text-white px-16"> Your Cart</div>
         <div className="px-12">
@@ -40,5 +40,5 @@ export default function Library() {
                 </div>
             ))}
         </div>
-    </>
+    </div>
 }
