@@ -1,6 +1,6 @@
 import {gql, useMutation} from "@apollo/client"
 import { useUser } from '../../context/UserContext.tsx';
-// import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const REMOVE_GAME_FROM_CART = gql`
     mutation RemoveGameFromCart($userId: ID!, $gameId: ID!) {
@@ -47,7 +47,7 @@ export default function CartElement({ game }: any) {
                 <div className="text-white">{game.title}</div>
             </a>
             <button className="ml-auto flex px-6" onClick={removeFromCart}>
-                {/* <RemoveCircleOutlineIcon className="mr-2" /> */}
+                <RemoveCircleOutlineIcon className="mr-2" />
                 <div className="text-red-600 font-bold">Remove</div>
             </button>
         </div>

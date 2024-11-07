@@ -9,6 +9,7 @@ import Payments from "./Components/Payments";
 import Library from "./Components/Library";
 import Cart from "./Components/Cart";
 import NotFound from "./Components/NotFound/NotFound";
+import UserProfile from "./Components/UserProfile";
 
 function Header() {
   return (
@@ -71,6 +72,14 @@ function App() {
           element={
             <> 
               <Cart />
+            </>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <>
+              <UserProfile />
             </>
           }
         />
