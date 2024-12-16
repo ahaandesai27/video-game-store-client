@@ -2,7 +2,7 @@ import { FormEvent, useRef, useState } from "react"
 import { gql, useMutation } from "@apollo/client"
 import { useNavigate } from "react-router-dom"
 import { onTokenChange, emitTokenChange } from "../../utils/eventEmitter"
-import ErrorModal from "./ErrorModal"
+
 interface AuthPayLoadData {
     loginUser: {
       token: string,
@@ -59,9 +59,9 @@ export default function Login() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
           <form className="space-y-6 p-10 rounded-lg border border-gray-500 relative bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg" onSubmit={handleSubmit} ref={formRef}>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white   ">
+                <h1 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white   ">
                     Login to your account
-                </h2>
+                </h1>
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-white">
@@ -116,11 +116,6 @@ export default function Login() {
           </form>
 
         </div>
-        <ErrorModal
-          show = {loginError}
-          handleClose={() => setLoginError(false)}
-          errorMessage="Login Unsuccessful!"
-        />
       </div>
     )
 }

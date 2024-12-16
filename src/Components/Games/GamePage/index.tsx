@@ -4,6 +4,8 @@ import Navbar from "../../Navbar";
 import Reviews from "../Reviews/Reviews";
 import SimilarGames from "./SimilarGames";
 import GameInfo from './GameInfo';
+import LoadingPage from "../../Utils/Loading";
+import ErrorPage from "../../Utils/Error";
 
 const GET_GAME = gql`
     query Game($url: String!) {
@@ -35,10 +37,10 @@ export default function Component() {
         variables: { url }
     });
 
-    if (loading) return <p className="text-white">Loading...</p>;
+    if (loading) return <LoadingPage />
     if (error) {
         console.error('Error fetching data:', error); 
-        return <p className="text-white">An error occurred</p>;
+        return <ErrorPage />
     }
 
     const game: any = data.gameByUrl;

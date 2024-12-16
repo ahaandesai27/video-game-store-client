@@ -59,9 +59,9 @@ export default function Component() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
           <form className="space-y-6 p-10 rounded-lg border border-gray-500 relative bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg" ref = {formRef} onSubmit={handleSubmit}>
             <div>
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white ">
+                <h1 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white ">
                     Create an Account
-                </h2>
+                </h1>
             </div>
 
             <div className="flex space-x-4 justify-center w-full">

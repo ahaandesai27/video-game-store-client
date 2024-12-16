@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { useJwt } from "react-jwt";
 import { onTokenChange } from "../utils/eventEmitter"; 
 import { gql, useQuery } from "@apollo/client";
+import LoadingPage from "../Components/Utils/Loading";
+import ErrorPage from "../Components/Utils/Error";
 
 interface UserContextValue {
   userId: string | null;
@@ -65,7 +67,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return (
     <UserContext.Provider value={{ userId, userGames, userPreferences }}>
-      {loading ? <div>Loading...</div> : error ? <div>Error: {error.message}</div> : children}
+      {loading ? <LoadingPage /> : error ? <ErrorPage /> : children}
     </UserContext.Provider>
   );
 };

@@ -8,6 +8,8 @@ import PlatformFilter from './Filters/PlatformFilter';
 import SearchForm from './Filters/SearchForm';
 import PriceSlider from './Filters/PriceSlider';  
 import CategoryFilter from './Filters/CategoryFilter';
+import LoadingPage from '../Utils/Loading';
+import ErrorPage from '../Utils/Error';
 
 const limit: number = 8;    
 
@@ -80,10 +82,10 @@ export default function Example() {
         }
     }
     
-    if (loading) return <p className="text-white">Loading...</p>;
+    if (loading) return <LoadingPage />;
     if (error) {
-        console.error('Error fetching data:', error); // Log the error for debugging
-        return <p className="text-white">An error occurred</p>;
+        console.error('Error fetching data:', error); 
+        return <ErrorPage />;
     }
 
     return (

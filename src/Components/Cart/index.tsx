@@ -2,6 +2,8 @@ import {gql, useQuery} from "@apollo/client"
 import { useUser } from '../../context/UserContext.tsx';
 import Navbar from "../Navbar.tsx";
 import CartElement from "./CartElement.tsx";
+import LoadingPage from "../Utils/Loading.tsx";
+import ErrorPage from "../Utils/Error.tsx";
 
 const GET_USER_CART= gql`
     query UserCart ($userId: ID!) {
@@ -26,8 +28,8 @@ export default function Library() {
 
     const games = data?.user.cart || [];
 
-    if (loading) return <div>Loading...</div>
-    if (error) return <div>Error: {error.message}</div>
+    if (loading) return <LoadingPage />
+    if (error) return <ErrorPage />
     if (!games.length) return <> <Navbar /> <div className="text-4xl font-bold p-5 text-white px-16"> No games in your cart </div> </>
     
     return <div style={{"fontFamily": "Allerta, sans-serif"}}>

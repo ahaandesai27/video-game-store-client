@@ -14,9 +14,9 @@ const GameCarousel = () => {
   return (
     <div className="flex justify-center items-center  bg-black py-6 px-4 sm:px-6 lg:px-8">
       <div className="w-full">
-        <h2 className="text-center text-4xl font-bold text-white mb-8">
+        <h1 className="text-center text-4xl font-bold text-white mb-8">
           Featured Games
-        </h2>
+        </h1>
         <Carousel
           axis="horizontal"
           showArrows={true}

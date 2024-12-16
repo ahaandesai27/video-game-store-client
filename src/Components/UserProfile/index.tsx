@@ -4,6 +4,8 @@ import Navbar from '../Navbar';
 import { gql, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import EditPreferences from './EditPreferences';
+import LoadingPage from '../Utils/Loading';
+import ErrorPage from '../Utils/Error';
 
 const FETCH_USER_DATA = gql`
     query User($id: ID!) {
@@ -45,8 +47,8 @@ const UserProfile = () => {
     const { loading, error, data } = useQuery(FETCH_USER_DATA, {
         variables: { id: userId },
     });
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    if (loading) return <LoadingPage />;
+    if (error) return <ErrorPage />;
     const user: User = data?.user;;
 
     const handleEditPreferencesClick = () => {
@@ -75,12 +77,6 @@ const UserProfile = () => {
                         <div className="about">
                             <div className="about-header">About</div>
                             <textarea className="about-text" defaultValue={user.about} readOnly />
-                        </div>
-
-                        <div className="w-full text-center mx-auto">
-                            <button className="bg-purple-600 mt-6 text-white font-bold py-2 px-4 rounded">
-                                Edit Profile
-                            </button>
                         </div>
 
                         <div className="profile-section">
