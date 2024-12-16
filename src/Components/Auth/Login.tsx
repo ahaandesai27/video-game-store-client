@@ -1,7 +1,7 @@
-import { FormEvent, useRef, useState } from "react"
+import { FormEvent, useRef } from "react"
 import { gql, useMutation } from "@apollo/client"
 import { useNavigate } from "react-router-dom"
-import { onTokenChange, emitTokenChange } from "../../utils/eventEmitter"
+import { emitTokenChange } from "../../utils/eventEmitter"
 
 interface AuthPayLoadData {
     loginUser: {
@@ -28,7 +28,6 @@ export default function Login() {
     const navigate = useNavigate();
     const formRef = useRef<HTMLFormElement>(null);
     const [login] = useMutation<AuthPayLoadData>(LOGIN);
-    const [loginError, setLoginError] = useState<boolean>(false);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();

@@ -60,7 +60,7 @@ const UserProfile = () => {
             <Navbar />
             <div className="profile-container">
                 {isEditingPreferences ? (
-                    <EditPreferences onClose={() => setIsEditingPreferences(false)} />
+                    <EditPreferences />
                 ) : (
                     <>
                         <div className="profile-header">

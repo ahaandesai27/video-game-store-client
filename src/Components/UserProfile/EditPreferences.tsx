@@ -69,6 +69,7 @@ const EditPreferences = () => {
                     categoryIds: selectedCategories,
                 },
             });
+            console.log(data);
             alert("Saved successfully!");
         } catch (error) {
             console.log(error);

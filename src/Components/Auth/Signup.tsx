@@ -15,6 +15,13 @@ interface AuthPayLoadData {
   registerUser: {
     token: string,
   }
+  loginUser: {
+    token: string,
+    user: {
+      username: string,
+      email: string
+    }
+  }
 }
 
 const SIGN_UP = gql`

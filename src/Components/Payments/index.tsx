@@ -137,6 +137,7 @@ function App() {
                     }
                 });
                 console.log(
+                    data,
                     "Capture result",
                     orderData,
                     JSON.stringify(orderData, null, 2)
