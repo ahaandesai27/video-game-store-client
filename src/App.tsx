@@ -10,8 +10,6 @@ import Library from "./Components/Library";
 import Cart from "./Components/Cart";
 import NotFound from "./Components/NotFound/NotFound";
 import UserProfile from "./Components/UserProfile";
-import LoadingPage from "./Components/Utils/Loading";
-import ErrorPage from "./Components/Utils/Error";
 
 function Header() {
   return (
