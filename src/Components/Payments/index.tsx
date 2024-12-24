@@ -55,7 +55,7 @@ function App() {
 
     const createOrder = async () => {
         try {
-            const response = await fetch("http://localhost:4000/payments/api/orders", {
+            const response = await fetch("https://web-production-9d90.up.railway.app/payments/api/orders", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -94,7 +94,7 @@ function App() {
     const onApprove = async (data: any, actions: any) => {
         try {
             const response = await fetch(
-                `http://localhost:4000/payments/api/orders/${data.orderID}/capture`,
+                `http://web-production-9d90.up.railway.app/payments/api/orders/${data.orderID}/capture`,
                 {
                     method: "POST",
                     headers: {
