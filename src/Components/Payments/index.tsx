@@ -32,8 +32,8 @@ function App() {
     console.log(location.state)
     const [addGameToUser] = useMutation(ADD_GAME_TO_USER);
     const initialOptions = {
-        "clientId": "",
-        "enable-funding": "venmo",
+        "clientId": "ARfKGgVVwPk0nfJsiyxG-OjJt6yMkbVsBnGnKB0T9YyIeL8aZP-gHWOBnuh6P25xPtPZVcj6Bixx6woa",
+        "enable-funding": "",
         "disable-funding": "",
         "currency": "USD",
         "data-page-type": "product-details",
