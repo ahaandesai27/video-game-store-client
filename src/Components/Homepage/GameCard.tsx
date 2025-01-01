@@ -16,7 +16,7 @@ const GameCard = ({_id, url, title, coverImage, price, link = ""}: Game) => {
         setSrc("https://static.vecteezy.com/system/resources/thumbnails/001/826/199/small_2x/progress-loading-bar-buffering-download-upload-and-loading-icon-vector.jpg");
     }
     return <a key={_id} href={link ? link : "games/" + url} className="group">
-        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+        <div className="w-full overflow-hidden rounded-md bg-gray-200">
         <img
             alt={url}
             src={src}
