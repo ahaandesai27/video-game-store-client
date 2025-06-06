@@ -5,7 +5,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import { UserProvider } from './context/UserContext.tsx';
 
 const client = new ApolloClient({
-  uri: "https://video-game-store-server.onrender.com",
+  uri: "https://video-game-store-server.onrender.com/api/graphql",
   cache: new InMemoryCache(),
 });
 
