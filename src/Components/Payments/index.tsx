@@ -28,6 +28,7 @@ mutation addGameToUser($gameID: ID!, $userID: ID!){
 
 function App() {
     const location = useLocation();
+    const baseUrl = import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : import.meta.env.VITE_PROD_API_URL;
     const {_id, price, title} : gameData = location.state || {};
     console.log(location.state)
     const [addGameToUser] = useMutation(ADD_GAME_TO_USER);
@@ -55,7 +56,7 @@ function App() {
 
     const createOrder = async () => {
         try {
-            const response = await fetch("https://web-production-9d90.up.railway.app/payments/api/orders", {
+            const response = await fetch(`${baseUrl}/payments/api/orders`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -94,7 +95,7 @@ function App() {
     const onApprove = async (data: any, actions: any) => {
         try {
             const response = await fetch(
-                `http://web-production-9d90.up.railway.app/payments/api/orders/${data.orderID}/capture`,
+                `${baseUrl}/payments/api/orders/${data.orderID}/capture`,
                 {
                     method: "POST",
                     headers: {

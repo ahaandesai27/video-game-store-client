@@ -4,8 +4,14 @@ import './index.css'
 import { ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import { UserProvider } from './context/UserContext.tsx';
 
+const API_URL =
+  import.meta.env.DEV
+    ? import.meta.env.VITE_DEV_API_URL + "/api/graphql"
+    : import.meta.env.VITE_PROD_API_URL + "/api/graphql";
+
+
 const client = new ApolloClient({
-  uri: "https://video-game-store-server.onrender.com/api/graphql",
+  uri: API_URL,
   cache: new InMemoryCache(),
 });
 
